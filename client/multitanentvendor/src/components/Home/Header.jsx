@@ -1,6 +1,7 @@
 import React from "react";
 import { ChevronRight, ArrowRight, ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
+import Cart from "../pages/Cart";
 const Header = () => {
   return (
     <>
@@ -106,10 +107,10 @@ const Header = () => {
           </div>
         </div>
 
-        <div className="overflow-hidden w-full relative max-w-7xl mx-auto select-none sm:my-20  ">
+        <div className="mt-6 overflow-hidden w-full relative max-w-7xl mx-auto select-none sm:my-20  ">
           <div className="absolute left-0 top-0 h-full w-20 z-10 pointer-events-none bg-gradient-to-r from-white to-transparent "></div>
           <div className="absolute right-0 top-0 h-full w-20 z-10 pointer-events-none bg-gradient-to-l from-white to-transparent "></div>
-          <div className="flex min-w-[200%] animate-marqueeScroll gap-4 will-change-transform">
+          <div className=" flex min-w-[200%] animate-marqueeScroll gap-4 will-change-transform">
             <button className="px-5 py-2 bg-slate-100 rounded-lg text-slate-500 text-xs sm:text-sm hover:bg-slate-600 hover:text-white active:scale-95 transition-all duration-300">
               Headphones
             </button>
@@ -163,6 +164,17 @@ const Header = () => {
             </button>
           </div>
         </div>
+
+         <div className="px-6 my-30 max-w-6xl mx-auto ">
+           <div className=" flex flex-col justify-center items-center">
+          <h2 className="text-2xl font-semibold text-slate-800">Latest Products</h2>
+          <p>Showing 4 of 12 products</p>
+        </div>
+          <div className="mt-12">
+            <Cart />
+
+          </div>
+         </div>
       </div>
     </>
   );
