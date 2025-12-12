@@ -85,10 +85,10 @@ const Stars=({rating}) =>{
         </div>
     )
 }
-const Cart = () => {
+const Cart = ({showcount}) => {
   return (
     <div className='grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8' >
-        {products.map((item)=>(
+        {products.slice(0, showcount).map((item)=>(
            <div key={item.id}
            >
              <div className='bg-[#F5F5F5] h-40 sm:h-60 rounded-lg flex items-center justify-center w-full'>
