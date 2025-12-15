@@ -4,8 +4,14 @@ import {  ArrowRight, ShoppingCart } from "lucide-react";
 import Cart from "../pages/Cart";
 import Main from "./Main";
 import Header from "./Header";
+import Specification from "../pages/Specification";
+import Newsletter from "../pages/Newsletter";
+import Footer from "./Footer";
 const Home = () => {
-  const [showcount, setShowCount] = useState(4);
+  const [latestCount, setLatestCount]=useState(4);
+  const [bestSellingCount, setBestSellingCount]= useState(8);
+
+
   return (
     <>
       {/* this is for mobile and small elements: */}
@@ -79,9 +85,9 @@ const Home = () => {
             </h2>
             <div className="flex">
               <p className="mt-2 flex">
-                Showing {showcount} of 10 products{" "}
+                Showing {latestCount} of 10 products{" "}
                 <span
-                  onClick={() => setShowCount(10)}
+                  onClick={() => setLatestCount(latestCount ==10?4:10)}
                   className="text-green-400 flex items-center gap-2 ml-2 cursor-pointer"
                 >
                   View more <ArrowRight size={20} />{" "}
@@ -90,9 +96,38 @@ const Home = () => {
             </div>
           </div>
           <div className="mt-12">
-            <Cart showcount={showcount} />
+            <Cart showcount={latestCount} />
           </div>
         </div>
+
+        <div className="px-6 my-30 max-w-6xl mx-auto ">
+          <div className=" flex flex-col justify-center items-center">
+            <h2 className="text-3xl font-semibold text-slate-800">
+              Best Selling Products
+            </h2>
+            <div className="flex">
+              <p className="mt-2 flex">
+                Showing {bestSellingCount} of 10 products{" "}
+                <span
+                  onClick={() => setBestSellingCount(bestSellingCount==10?8:10)}
+                  className="text-green-400 flex items-center gap-2 ml-2 cursor-pointer"
+                >
+                  {bestSellingCount == 10 ?"View Less": "View more"} <ArrowRight size={20} />{" "}
+                </span>
+              </p>
+            </div>
+          </div>
+          <div className="mt-12">
+            <Cart showcount={bestSellingCount} />
+          </div>
+        </div>
+
+        <div>
+          <Specification/>
+          <Newsletter />
+        </div>
+        <Footer />
+
       </div>
     </>
   );

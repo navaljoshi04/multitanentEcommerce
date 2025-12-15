@@ -68,47 +68,70 @@ const Main = () => {
         </div>
       </div>
 
-      <div className="hidden xl:grid xl:grid-cols-4">
-        <div className="xl:col-span-3 p-6">
-          <div className="bg-green-200 rounded-3xl p-6 flex flex-col justify-between min-h-[220px]">
-            {/* NEWS SECTION — 30-40% WIDTH */}
-            <button
-              className="inline-flex items-center gap-3 bg-green-300 text-green-700 
-               px-3 py-1 rounded-full text-base w-1/2 min-w-[160px] truncate"
-            >
-              <span className="text-white bg-green-600 text-base px-3 py-1 rounded-full">
-                NEWS
-              </span>
+      {/* this is for bigger screens which i have to update */}
+      <div className="hidden xl:grid xl:grid-cols-3">
+        <div className="xl:col-span-2 p-6">
+          <div className="relative bg-green-200 rounded-3xl p-10 h-[460px] overflow-hidden">
+            {/* LEFT CONTENT (does not change parent height) */}
+            <div className="flex h-full flex-col justify-center gap-6 max-w-md">
+              <button className="inline-flex items-center gap-3 bg-green-300 text-green-700 px-4 py-1 rounded-full text-base w-fit min-w-[200px] truncate">
+                <span className="text-white bg-green-600 text-base px-3 py-1 rounded-full">
+                  NEWS
+                </span>
+                <span className="truncate">
+                  Free shipping on Orders Above $50!
+                </span>
+              </button>
 
-              <span className="truncate">
-                Free shipping on Orders Above $50!
-              </span>
-            </button>
+              <h2 className="text-5xl leading-tight font-medium bg-gradient-to-r from-slate-600 to-[#A0FF74] bg-clip-text text-transparent">
+                Gadgets you'll love. Prices you'll trust.
+              </h2>
 
-            {/* HEADING */}
-            <h2
-              className="text-4xl leading-tight font-medium 
-                 bg-gradient-to-r from-slate-600 to-[#A0FF74] 
-                 bg-clip-text text-transparent max-w-sm mt-4"
-            >
-              Gadgets you'll love. Prices you'll trust.
-            </h2>
+              <div className="flex items-baseline gap-2 text-slate-900">
+                <span className="text-base">Starts from</span>
+                <span className="text-3xl font-semibold">$4.90</span>
+              </div>
+
+              <button className="box-border w-[140px] px-2 py-3 bg-slate-800 text-white text-lg rounded-md">
+                LEARN MORE
+              </button>
+            </div>
 
             {/* IMAGE — Bigger but does NOT increase box height */}
-            <div className="flex justify-end mt-4">
+            <div className="absolute inset-y-0 right-6 flex items-end justify-end">
               <img
                 src="/heromodal.png"
                 alt="hero"
                 loading="lazy"
-                className="w-[55%] max-w-[350px] object-contain"
+                className="h-[140%] max-h-[320px] w-auto object-contain"
               />
             </div>
           </div>
         </div>
 
-        <div className="bg-yellow-50 xl:col-span-1 p-6">
-          <div>1</div>
-          <div>2</div>
+        <div className=" xl:col-span-1 flex flex-col gap-5 text-slate-600 p-6">
+          <div className="flex-1 flex items-center justify-between w-full bg-orange-200 rounded-3xl p-6 px-8">
+            <div className="flex">
+             <div className="flex flex-col">
+               <p className="text-3xl font-medium bg-gradient-to-r from-slate-800 to-[#FFAD51] bg-clip-text text-transparent max-w-40">
+                Best Products
+              </p>
+              <button className="flex flex-col items-center gap-1 mt-4 font-light text-[12px]">View More</button>
+             </div>
+              <img src="/productsImages/img4.webp" loading="lazy" height="110" width="110" alt="" />
+            </div>
+          </div>
+          <div className="flex-1 flex items-center justify-between w-full bg-blue-200 rounded-3xl p-6 px-8">
+            <div className="flex">
+             <div className="flex flex-col">
+               <p className="text-3xl font-medium bg-gradient-to-r from-slate-800 to-[#FFAD51] bg-clip-text text-transparent max-w-40">
+                20% Discount
+              </p>
+              <button className="flex flex-col items-center gap-1 mt-4 font-light text-[12px]">View More</button>
+             </div>
+              <img src="/productsImages/img10.webp" loading="lazy" height="110" width="110" alt="" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
