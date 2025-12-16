@@ -12,7 +12,7 @@ const Login = ({onClose}) => {
                     p-4 sm:p-6 md:p-10 flex justify-center"
       >
         <div
-          className="relative w-full md:max-w-[60vw] rounded-4xl bg-white 
+          className="relative w-full md:max-w-[60vw] lg:max-w-[30vw] lg:rounded-xl rounded-2xl bg-white 
                     p-6 shadow-2xl flex flex-col 
                     mt-16 max-h-[60vh]"
         >
