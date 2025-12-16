@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { ShoppingCart , Search } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const Header = () => {
+const Header = ({onCartClick}) => {
+
   return (
     <div>
       <div className="border-b border-gray-300">
@@ -11,7 +12,7 @@ const Header = () => {
             <span className="text-green-400">go</span>cart
             <span className="text-green-400">.</span>
           </h2>
-          <button className="px-7 py-2 text-sm bg-indigo-500 hover:bg-indigo-600  transition rounded-full text-white ">
+          <button onClick={onCartClick} className="px-7 py-2 text-sm bg-indigo-500 hover:bg-indigo-600  transition rounded-full text-white ">
             Login
           </button>
         </div>
@@ -46,6 +47,7 @@ const Header = () => {
             </Link>
 
             <button
+              onClick={onCartClick}
               className="px-7 text-sm bg-green-400 rounded-full text-white py-2 transition hover:bg-green-500 cursor-pointer "
               to="/login"
             >
@@ -99,6 +101,7 @@ const Header = () => {
 
             {/* Login Button */}
             <button
+              onClick={onCartClick}
               className="px-7 text-sm bg-green-400 rounded-full text-white py-2 
       transition hover:bg-green-500 cursor-pointer"
             >
