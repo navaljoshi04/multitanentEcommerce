@@ -4,24 +4,17 @@ import { ArrowRight, } from "lucide-react";
 
 import Cart from "../pages/Cart";
 import Main from "./Main";
-import Header from "./Header";
+
 import Specification from "../pages/Specification";
 import Newsletter from "../pages/Newsletter";
-import Footer from "./Footer";
-import Login from "../pages/Login";
+
 const Home = () => {
   const [latestCount, setLatestCount] = useState(4);
   const [bestSellingCount, setBestSellingCount] = useState(8);
-  const [isCartOpen, setIsCartOpen] = useState(false);
+
   return (
     <>
-      {/* this is for mobile and small elements: */}
-      <Header onCartClick={() => setIsCartOpen(true)} />
-
-      {isCartOpen && (
-       <Login onClose={()=>setIsCartOpen(false)} />
-      )}
-
+     
       <div className="mx-6">
         <Main />
 
@@ -134,7 +127,7 @@ const Home = () => {
           <Specification />
           <Newsletter />
         </div>
-        <Footer />
+ 
       </div>
     </>
   );

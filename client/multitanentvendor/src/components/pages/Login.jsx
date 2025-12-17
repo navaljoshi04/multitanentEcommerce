@@ -1,7 +1,8 @@
 import React from "react";
 import {FcGoogle } from "react-icons/fc"
 import { X,Play } from "lucide-react";
-const Login = ({onClose}) => {
+
+const Login = ({onClose, onSignup}) => {
   return (
     <div
       className="fixed inset-0 z-50 flex justify-center 
@@ -54,7 +55,7 @@ const Login = ({onClose}) => {
             <div className="flex justify-center  mt-4 bg-slate-700 p-3 rounded-lg">
               <button className="flex gap-2 text-white ">
                 Continue
-                <Play />{" "}
+                <Play size={12} className="mt-2" />{" "}
               </button>
             </div>
             <div className="my-6 w-full flex ">
@@ -63,9 +64,17 @@ const Login = ({onClose}) => {
             <div className="flex justify-center">
               <p className="font-medium text-sm">
                 Don't have an acount?{" "}
-                <span className="text-green-600 font-bold">Sign up</span>{" "}
+                <span onClick={onSignup} className="text-slate-600 font-semibold">Sign up</span>{" "}
               </p>
             </div>
+             <div className="my-6 w-full flex ">
+                <div className="flex-1 bg-gray-300 h-px">
+                    <p className="text-center text-[12px] mt-4 text-orange-600 font-semibold ">
+                        Development Mode
+                    </p>
+                </div>
+            </div>
+            
           </div>
         </div>
       </div>
