@@ -19,8 +19,10 @@ const userSchema= mongoose.Schema({
     provider:{
         type:String,
         enum:["email", "google"],
-        default:"email"
+        default:"email",
+        required:true
     },
+    googleId:String,
     isVerified:{
         type:Boolean,
         default:false

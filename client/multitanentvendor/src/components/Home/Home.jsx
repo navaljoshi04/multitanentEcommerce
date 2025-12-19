@@ -88,7 +88,7 @@ const Home = () => {
                   onClick={() => setLatestCount(latestCount == 10 ? 4 : 10)}
                   className="text-green-400 flex items-center gap-2 ml-2 cursor-pointer"
                 >
-                  View more <ArrowRight size={20} />{" "}
+                  View more <ArrowRight className="hover:scale-140" size={20} />{" "}
                 </span>
               </p>
             </div>

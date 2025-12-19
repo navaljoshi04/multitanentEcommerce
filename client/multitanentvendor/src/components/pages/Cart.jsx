@@ -92,7 +92,7 @@ const Cart = ({showcount}) => {
            <div key={item.id}
            >
              <div className='bg-[#F5F5F5] h-40 sm:h-60 rounded-lg flex items-center justify-center w-full'>
-            <img loading='lazy' className='max-h-30 sm:max-h-40 w-auto ' src={item.image} />
+            <img loading='lazy' className='max-h-30 sm:max-h-40 w-auto hover:scale-110' src={item.image} />
              </div>
             <div className='flex gap-2 text-[10px] mt-2'>
                 <h2 className='font-light'>{item.name} </h2>

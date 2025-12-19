@@ -49,13 +49,17 @@ const Main = () => {
             </div>
             <img src="/heroearbuds.png" alt="earbuds" />
           </div>
-          <div className="flex flex-1 items-center justify-between w-full bg-blue-200 rounded-3xl p-6 px-8 group overflow-hidden">
+          <div className="flex flex-1 items-center justify-between w-full bg-blue-200 rounded-3xl p-6 px-8  overflow-hidden">
             <div>
               <p className="text-3xl font-medium bg-gradient-to-r from-slate-800 to-[#78B2FF] bg-clip-text bg-transparent max-w-40">
                 20% discounts
               </p>
-              <button className="flex items-center gap-1 mt-4">
-                View More <ArrowRight size={20} />{" "}
+              <button className="flex items-center group gap-1 mt-4">
+                View More1{" "}
+                <ArrowRight
+                  className="transition-transform duration-300 ease-out group-hover:translate-x-2  group-hover:scale-110"
+                  size={20}
+                />{" "}
               </button>
             </div>
             <img
@@ -112,24 +116,48 @@ const Main = () => {
         <div className=" xl:col-span-1 flex flex-col gap-5 text-slate-600 p-6">
           <div className="flex-1 flex items-center justify-between w-full bg-orange-200 rounded-3xl p-6 px-8">
             <div className="flex">
-             <div className="flex flex-col">
-               <p className="text-3xl font-medium bg-gradient-to-r from-slate-800 to-[#FFAD51] bg-clip-text text-transparent max-w-40">
-                Best Products
-              </p>
-              <button className="flex flex-col items-center gap-1 mt-4 font-light text-[12px]">View More</button>
-             </div>
-              <img src="/productsImages/img4.webp" loading="lazy" height="110" width="110" alt="" />
+              <div className="flex flex-col">
+                <p className="text-3xl font-medium bg-gradient-to-r from-slate-800 to-[#FFAD51] bg-clip-text text-transparent max-w-40">
+                  Best Products
+                </p>
+                <button className="flex items-center gap-1 mt-4 font-light text-[12px] group">
+                  View More
+                    <ArrowRight
+                  className="transition-transform duration-300 ease-out group-hover:translate-x-2  group-hover:scale-110"
+                  size={20}
+                />{" "}
+                </button>
+              </div>
+              <img
+                src="/productsImages/img4.webp"
+                loading="lazy"
+                height="110"
+                width="110"
+                alt=""
+              />
             </div>
           </div>
           <div className="flex-1 flex items-center justify-between w-full bg-blue-200 rounded-3xl p-6 px-8">
             <div className="flex">
-             <div className="flex flex-col">
-               <p className="text-3xl font-medium bg-gradient-to-r from-slate-800 to-[#FFAD51] bg-clip-text text-transparent max-w-40">
-                20% Discount
-              </p>
-              <button className="flex flex-col items-center gap-1 mt-4 font-light text-[12px]">View More</button>
-             </div>
-              <img src="/productsImages/img10.webp" loading="lazy" height="110" width="110" alt="" />
+              <div className="flex flex-col">
+                <p className="text-3xl font-medium bg-gradient-to-r from-slate-800 to-[#FFAD51] bg-clip-text text-transparent max-w-40">
+                  20% Discount
+                </p>
+                <button className="flex  group items-center gap-1 mt-4 font-light text-[12px]">
+                  View More
+                     <ArrowRight
+                  className="transition-transform duration-300 ease-out group-hover:translate-x-2  group-hover:scale-110"
+                  size={20}
+                />{" "}
+                </button>
+              </div>
+              <img
+                src="/productsImages/img10.webp"
+                loading="lazy"
+                height="110"
+                width="110"
+                alt=""
+              />
             </div>
           </div>
         </div>

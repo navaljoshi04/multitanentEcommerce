@@ -30,26 +30,60 @@ export const signup = async (req, res) => {
         provider: "email",
         isVerified: false,
       },
-      {upsert:true}
+      { upsert: true }
     );
-    const otp= Math.floor(1000 + Math.random()*9000).toString();
-    const otpHash=crypto.createHash("sha256").update(otp).digest("hex");
-    await OTP.deleteMany({email});
+    const otp = Math.floor(1000 + Math.random() * 9000).toString();
+    const otpHash = crypto.createHash("sha256").update(otp).digest("hex");
+    await OTP.deleteMany({ email });
     await OTP.create({
-        email,
-        otpHash,
-        expiresAt:Date.now()+5*60*1000,
+      email,
+      otpHash,
+      expiresAt: Date.now() + 5 * 60 * 1000,
     });
 
     //send mail logic here :
     await sendEmail({
-      to:email,
-      subject:"Verify your email",
-      html:otpTemplate(otp)
-    })
-    res.json({message:"OTP sent to your email.Please sign up."});
+      to: email,
+      subject: "Verify your email",
+      html: otpTemplate(otp),
+    });
+    res.json({ message: "OTP sent to your email.Please sign up." });
   } catch (error) {
-        res.status(500).json({ message: "Signup failed : " + error.message });
+    res.status(500).json({ message: "Signup failed : " + error.message });
+  }
+};
 
+export const verifyOTP = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    if (!email || !otp) {
+      return res.status(400).json({
+        message: "Email and OTP are required",
+      });
+    }
+    const otpDoc = await OTP.findOne({ email });
+    if (!otpDoc) {
+      return res.status(400).json({
+        message: "OTP not found or already used",
+      });
+    }
+    if (otpDoc.expiresAt < Date.now()) {
+      await OTP.deleteOne({ email });
+      return res.status(400).json({
+        message: "OTP expired",
+      });
+    }
+    const hashedOTP = crypto.createHash("sha256").update(otp).digest("hex");
+    if (hashedOTP != otpDoc.otpHash) {
+      return res.status(400).json({ message: "Invalid OTP." });
+    }
+
+    await User.updateOne({ email }, { isVerified: true });
+    await OTP.deleteOne({ email });
+    res.json({
+      message: "Email Verified Successfully !",
+    });
+  } catch (error) {
+    res.status(500).json({ message: "OTP is not verified : " + error.message });
   }
 };
