@@ -16,7 +16,7 @@ export const googleLogin = async (req, res) => {
       audience: process.env.GOOGLE_CLIENT_ID,
     });
 
-    //extract user data
+    //2. extract user data
     const payload = ticket.getPayload();
     const { email, name, picture, sub: googleId, email_verified } = payload;
     if (!email_verified) {

@@ -1,8 +1,29 @@
 import React from "react";
-import {FcGoogle } from "react-icons/fc"
-import { X,Play } from "lucide-react";
+import { FcGoogle } from "react-icons/fc";
+import { X, Play } from "lucide-react";
+import { GoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
-const Login = ({onClose, onSignup}) => {
+const Login = ({ onClose, onSignup }) => {
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/users/loginGoogle`,
+        { token: credentialResponse.credential }
+      );
+      console.log("data is ", response.data);
+      if (response.data.user) {
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+      }
+      onClose();
+    } catch (error) {
+      console.error("Google login failed", error);
+    }
+  };
+
+  const handleGoogleError = () => {
+    console.log("Google Login Failed");
+  };
   return (
     <div
       className="fixed inset-0 z-50 flex justify-center 
@@ -17,7 +38,10 @@ const Login = ({onClose, onSignup}) => {
                     p-6 shadow-2xl flex flex-col 
                     mt-16 max-h-[60vh]"
         >
-          <button onClick={onClose} className="absolute cursor-pointer top-4 right-4 text-gray-600 hover:text-black">
+          <button
+            onClick={onClose}
+            className="absolute cursor-pointer top-4 right-4 text-gray-600 hover:text-black"
+          >
             <X />
           </button>
 
@@ -29,10 +53,20 @@ const Login = ({onClose, onSignup}) => {
             Welcome back! Please sign in to continue
           </p>
           <div className="mt-6 border border-gray-300 w-full rounded-lg">
-            <button className="flex items-center justify-center gap-3 w-full rounded-lg  py-2 font-">
-              <FcGoogle className="w-6 h-6" />
-              Continue with Google
-            </button>
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleError}
+              render={({ onClick, disabled }) => (
+                <button
+                  onClick={onClick}
+                  disabled={disabled}
+                  className="flex items-center justify-center gap-3 w-full rounded-lg py-2"
+                >
+                  <FcGoogle className="w-6 h-6" />
+                  Continue with Google
+                </button>
+              )}
+            />
           </div>
 
           <div className="my-6 flex items-center w-full">
@@ -64,17 +98,21 @@ const Login = ({onClose, onSignup}) => {
             <div className="flex justify-center">
               <p className="font-medium text-sm">
                 Don't have an acount?{" "}
-                <span onClick={onSignup} className="text-slate-600 font-semibold">Sign up</span>{" "}
+                <span
+                  onClick={onSignup}
+                  className="text-slate-600 font-semibold"
+                >
+                  Sign up
+                </span>{" "}
               </p>
             </div>
-             <div className="my-6 w-full flex ">
-                <div className="flex-1 bg-gray-300 h-px">
-                    <p className="text-center text-[12px] mt-4 text-orange-600 font-semibold ">
-                        Development Mode
-                    </p>
-                </div>
+            <div className="my-6 w-full flex ">
+              <div className="flex-1 bg-gray-300 h-px">
+                <p className="text-center text-[12px] mt-4 text-orange-600 font-semibold ">
+                  Development Mode
+                </p>
+              </div>
             </div>
-            
           </div>
         </div>
       </div>

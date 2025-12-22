@@ -41,7 +41,6 @@ export const signup = async (req, res) => {
       expiresAt: Date.now() + 5 * 60 * 1000,
     });
 
-    //send mail logic here :
     await sendEmail({
       to: email,
       subject: "Verify your email",
