@@ -36,7 +36,7 @@ const Login = ({ onClose, onSignup }) => {
         <div
           className="relative w-full md:max-w-[60vw] lg:max-w-[30vw] lg:rounded-xl rounded-2xl bg-white 
                     p-6 shadow-2xl flex flex-col 
-                    mt-16 max-h-[60vh]"
+                    mt-16 max-h-[80vh]"
         >
           <button
             onClick={onClose}
