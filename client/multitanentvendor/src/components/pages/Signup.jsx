@@ -3,6 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 import { X, Play, CircleDashed } from "lucide-react";
 import axios from "axios";
 import { useState } from "react";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Signup = ({ onClose, onLogin, onOTPSent }) => {
   const [formData, setFormData] = useState({
@@ -22,6 +23,23 @@ const Signup = ({ onClose, onLogin, onOTPSent }) => {
     }));
     setError("");
   };
+
+  const handleGoogleSuccess = async(credentialResponse)=>{
+    try {
+      const response= await axios.post(`${import.meta.env.VITE_API_URL}/api/users/loginGoogle`, {token:credentialResponse.credential});
+       console.log("data is ", response.data);
+        if (response.data.user) {
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+      }
+      onClose();
+    } catch (error) {
+      console.error("Google login failed", error);
+    }
+  }
+
+  const handleGoogleError= async()=>{
+     console.log("Google login failed");
+  }
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -45,7 +63,7 @@ const Signup = ({ onClose, onLogin, onOTPSent }) => {
       if (response.data.message) {
         onClose();
         if (onOTPSent) {
-          onOTPSent(formData.email);
+          onOTPSent(formData.email, "signup");
         }
       }
     } catch (error) {
@@ -82,10 +100,16 @@ const Signup = ({ onClose, onLogin, onOTPSent }) => {
 
         <div className="flex-1 overflow-y-auto px-6">
           <div className="mt-6 border border-gray-300 w-full rounded-lg">
-            <button className="flex items-center justify-center gap-3 w-full rounded-lg py-2 font-">
-              <FcGoogle className="w-6 h-6" />
-              Continue with Google
-            </button>
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleError}
+              render={({ onClick, disabled }) => (
+                <button onClick={onClick} disabled={disabled} className="flex items-center justify-center gap-3 w-full rounded-lg py-2 font-">
+                  <FcGoogle className="w-6 h-6" />
+                  Continue with Google
+                </button>
+              )}
+            />
           </div>
 
           <div className="my-6 flex items-center w-full">

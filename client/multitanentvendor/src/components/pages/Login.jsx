@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { X, Play } from "lucide-react";
 import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 
-const Login = ({ onClose, onSignup }) => {
+const Login = ({ onClose, onSignup, onOTPSent }) => {
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
       const response = await axios.post(
@@ -23,6 +23,44 @@ const Login = ({ onClose, onSignup }) => {
 
   const handleGoogleError = () => {
     console.log("Google Login Failed");
+  };
+
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  console.log(email);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    if (!email) {
+      setError("Please enter the email field.");
+      return;
+    }
+    setLoading(true);
+    setError("");
+    try {
+      const response = await axios.post(
+        `${
+          import.meta.env.VITE_API_URL || "http://localhost:3000"
+        }/api/users/login`,
+        email
+      );
+      console.log(response.data.message);
+      if (response.data.message) {
+        onClose();
+        if (onOTPSent) {
+          onOTPSent(email, "login");
+        }
+      }
+    } catch (error) {
+      setError(
+        error.response?.data?.message ||
+          error.message ||
+          "Login failed. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <div
@@ -82,14 +120,30 @@ const Login = ({ onClose, onSignup }) => {
             <div className="border border-gray-300 mt-2 rounded-md p-2 focus-within:border-gray-500">
               <input
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email address"
                 className="text-sm w-full outline-none focus:outline-none"
               />
             </div>
             <div className="flex justify-center  mt-4 bg-slate-700 p-3 rounded-lg">
-              <button className="flex gap-2 text-white ">
-                Continue
-                <Play size={12} className="mt-2" />{" "}
+              <button
+                type="submit"
+                onClick={handleLogin}
+                className="flex gap-2 text-white "
+              >
+
+                 {loading ? (
+                  <>
+                    <CircleDashed size={18} className="animate-spin" />
+                    <span>Verify OTP...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Continue</span>
+                    <Play size={12} className="mt-2 gap-1"/>
+                  </>
+                )}
               </button>
             </div>
             <div className="my-6 w-full flex ">

@@ -13,6 +13,8 @@ const Layout = () => {
   const [otpEmail, setOtpEmail] = useState("");
   const [otp, setOtp] = useState(["", "", "", ""]);
 
+  const [otpPurpose, setOtpPurpose]=useState(null);
+
   const handleOtpChange = (value, index) => {
     if (!/^\d?$/.test(value)) return;
     const newOtp = [...otp];
@@ -23,10 +25,12 @@ const Layout = () => {
     }
   };
 
+  
   console.log("otp", otp);
-  const handleOTPSent = (email) => {
+  const handleOTPSent = (email, purpose) => {
     setOtpEmail(email);
-    setAuthModal("otp"); // Switch to OTP verification modal
+    setAuthModal("otp"); 
+    setOtpPurpose(purpose)
   };
 
   const handleVerifyOtp = async () => {
@@ -35,8 +39,11 @@ const Layout = () => {
       alert("please enter complete otp");
       return;
     }
+
+    const endpoint= otpPurpose ==="signup" ? "http://localhost:3000/api/users/verify":"http://localhost:3000/api/users/verify-login";
+    console.log(endpoint,"endpoints");
     try {
-      const response = await axios.post("http://localhost:3000/api/users/verify", {
+      const response = await axios.post(endpoint, {
         email: otpEmail,
         otp: finalOtp,
       });
@@ -61,6 +68,7 @@ const Layout = () => {
         <Login
           onClose={() => setAuthModal(null)}
           onSignup={() => setAuthModal("signup")}
+          onOTPSent={handleOTPSent}
         />
       )}
 
@@ -72,7 +80,6 @@ const Layout = () => {
         />
       )}
 
-      {/* TODO: Create OTP Verification component */}
       {authModal === "otp" && (
         <div className="fixed inset-0 z-50 flex justify-center items-center p-4">
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
