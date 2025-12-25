@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { X, Play } from "lucide-react";
+import { X, Play , CircleDashed} from "lucide-react";
 import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 
@@ -43,7 +43,7 @@ const Login = ({ onClose, onSignup, onOTPSent }) => {
         `${
           import.meta.env.VITE_API_URL || "http://localhost:3000"
         }/api/users/login`,
-        email
+        {email}
       );
       console.log(response.data.message);
       if (response.data.message) {
@@ -126,6 +126,11 @@ const Login = ({ onClose, onSignup, onOTPSent }) => {
                 className="text-sm w-full outline-none focus:outline-none"
               />
             </div>
+              {error && (
+              <div className="mt-2 text-red-600 text-xs text-center">
+                {error}
+              </div>
+            )}
             <div className="flex justify-center  mt-4 bg-slate-700 p-3 rounded-lg">
               <button
                 type="submit"

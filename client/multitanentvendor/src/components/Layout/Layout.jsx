@@ -7,13 +7,15 @@ import Signup from "../pages/Signup";
 import Footer from "../Home/Footer";
 import { PencilLine, Play } from "lucide-react";
 import axios from "axios";
-
+import { useDispatch } from "react-redux";
+import { loginsuccess } from "../../store/authslices";
 const Layout = () => {
+  const dispatch = useDispatch();
   const [authModal, setAuthModal] = useState(null);
   const [otpEmail, setOtpEmail] = useState("");
   const [otp, setOtp] = useState(["", "", "", ""]);
 
-  const [otpPurpose, setOtpPurpose]=useState(null);
+  const [otpPurpose, setOtpPurpose] = useState(null);
 
   const handleOtpChange = (value, index) => {
     if (!/^\d?$/.test(value)) return;
@@ -25,12 +27,11 @@ const Layout = () => {
     }
   };
 
-  
   console.log("otp", otp);
   const handleOTPSent = (email, purpose) => {
     setOtpEmail(email);
-    setAuthModal("otp"); 
-    setOtpPurpose(purpose)
+    setAuthModal("otp");
+    setOtpPurpose(purpose);
   };
 
   const handleVerifyOtp = async () => {
@@ -40,14 +41,28 @@ const Layout = () => {
       return;
     }
 
-    const endpoint= otpPurpose ==="signup" ? "http://localhost:3000/api/users/verify":"http://localhost:3000/api/users/verify-login";
-    console.log(endpoint,"endpoints");
+    const endpoint =
+      otpPurpose === "signup"
+        ? "http://localhost:3000/api/users/verify"
+        : "http://localhost:3000/api/users/verify-login";
+   
     try {
       const response = await axios.post(endpoint, {
         email: otpEmail,
         otp: finalOtp,
       });
-      alert( response?.data.message);
+
+      dispatch(
+        loginsuccess({
+          user: response?.data?.user,
+          token: response?.data?.token,
+        })
+      );
+
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+
+      alert(response?.data.message);
       setOtp(["", "", "", ""]);
       setAuthModal(null);
     } catch (error) {
