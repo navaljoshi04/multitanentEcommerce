@@ -2,6 +2,7 @@ import User from "../models/user/user.model.js";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 import OTP from "../models/otp.model.js";
+import jwt from "jsonwebtoken";
 import { sendEmail } from "../utils/sendEmail.js";
 import { otpTemplate } from "../utils/otpTemplate.js";
 
@@ -86,10 +87,22 @@ export const verifyOTP = async (req, res) => {
       return res.status(400).json({ message: "Invalid OTP." });
     }
 
-    await User.updateOne({ email }, { isVerified: true });
+    const user= await User.findOneAndUpdate({ email }, { isVerified: true }, {new:true}).select("-password");
+    if(!user){
+            return res.status(404).json({ message: "User not found" });
+    }
     await OTP.deleteOne({ email });
+
+    const token= jwt.sign(
+      {userId:user._id},
+      process.env.JWT_SECRET,
+      {expiresIn: "7d"}
+    )
+
     res.json({
       message: "Email Verified Successfully !",
+      user,
+      token,
     });
   } catch (error) {
     res.status(500).json({ message: "OTP is not verified : " + error.message });
@@ -154,23 +167,37 @@ export const verifyLoginOTP = async (req, res) => {
         message: "OTP not found or already used",
       });
     }
-    if(otpDoc.expiresAt <Date.now()){
-      await OTP.deleteOne({email});
+    if (otpDoc.expiresAt < Date.now()) {
+      await OTP.deleteOne({ email });
       return res.status(400).json({
-        message:"OTP expired."
-      })
+        message: "OTP expired.",
+      });
     }
 
     const hashedOTP = crypto.createHash("sha256").update(otp).digest("hex");
-    if(hashedOTP !=otpDoc.otpHash){
-        return res.status(400).json({ message: "Invalid OTP." });
+    if (hashedOTP != otpDoc.otpHash) {
+      return res.status(400).json({ message: "Invalid OTP." });
     }
 
     await OTP.deleteOne({ email });
+    const user = await User.findOne({ email }).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const token = jwt.sign(
+      {
+        userId: user._id,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
     res.json({
       message: "Login Successful !",
+      user,
+      token
     });
   } catch (error) {
-        res.status(500).json({ message: "OTP is not verified : " + error.message });
+    res.status(500).json({ message: "OTP is not verified : " + error.message });
   }
 };

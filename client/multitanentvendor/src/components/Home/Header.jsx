@@ -1,8 +1,14 @@
-import React from "react";
-import { ShoppingCart , Search } from "lucide-react";
-import { Link,  } from "react-router-dom";
+import React, { useState } from "react";
+import { ShoppingCart, Search, UserRound } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import UserMenu from "./UserMenu";
 
-const Header = ({onLoginClick}) => {
+const Header = ({ onLoginClick }) => {
+  const user = useSelector((state) => state.auth.user);
+  console.log(user, "user");
+  console.log(user.avatar, "avatar");
+  const [showMenu, setShowMenu]=useState(false);
   return (
     <div>
       <div className="border-b border-gray-300">
@@ -11,9 +17,30 @@ const Header = ({onLoginClick}) => {
             <span className="text-green-400">go</span>cart
             <span className="text-green-400">.</span>
           </h2>
-          <button onClick={onLoginClick} className="px-7 py-2 text-sm bg-indigo-500 hover:bg-indigo-600  transition rounded-full text-white ">
-            Login
-          </button>
+          {user ? (
+            <div className="relative">
+              <button onClick={()=>setShowMenu((prev)=>!prev)} className="hover:ring-2 hover:ring-green-200 transition">
+                {user?.avatar ? (
+                  <img
+                    src={user?.avatar}
+                    alt="avatar"
+                    referrerPolicy="no-referrer"
+                    className="w-9 h-9 object-cover border-gray-300 rounded-full"
+                  />
+                ) : (
+                  <UserRound className="w-9 h-9 object-cover rounded-full" />
+                )}
+              </button>
+              {showMenu && <UserMenu user={user} />}
+            </div>
+          ) : (
+            <button
+              onClick={onLoginClick}
+              className="px-7 py-2 text-sm bg-indigo-500 hover:bg-indigo-600  transition rounded-full text-white "
+            >
+              Login
+            </button>
+          )}
         </div>
 
         {/* desktop and larger screens will come here  */}
@@ -45,13 +72,29 @@ const Header = ({onLoginClick}) => {
               Cart
             </Link>
 
-            <button
-              onClick={onLoginClick}
-              className="px-7 text-sm bg-green-400 rounded-full text-white py-2 transition hover:bg-green-500 cursor-pointer "
-              to="/login"
-            >
-              Login
-            </button>
+            {user ? (
+              <div className="relative">
+                <button className="flex">
+                  {user?.avatar ? (
+                    <img
+                      src={user?.avatar}
+                      alt="avatar"
+                      referrerPolicy="no-referrer"
+                      className="w-9 h-9 object-cover border-gray-300 rounded-full"
+                    />
+                  ) : (
+                    <UserRound className="w-9 h-9 object-cover rounded-full" />
+                  )}
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={onLoginClick}
+                className="px-7 py-2 text-sm bg-indigo-500 hover:bg-indigo-600  transition rounded-full text-white "
+              >
+                Login
+              </button>
+            )}
           </div>
         </div>
 
@@ -68,7 +111,9 @@ const Header = ({onLoginClick}) => {
           {/* Nav Links */}
           <div className="flex items-center gap-6 font-light">
             <Link to="/">Home</Link>
-            <Link to="/shop" className="border-b-2 border-green-400 pb-1" >Shop</Link>
+            <Link to="/shop" className="border-b-2 border-green-400 pb-1">
+              Shop
+            </Link>
             <Link className="border-b-2 border-green-400 pb-1" to="/admin">
               Admin
             </Link>
@@ -76,7 +121,10 @@ const Header = ({onLoginClick}) => {
 
           {/* Search */}
           <div className="relative w-80">
-            <Search size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+            <Search
+              size={20}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"
+            />
             <input
               type="text"
               placeholder="search products"
@@ -99,13 +147,29 @@ const Header = ({onLoginClick}) => {
             </Link>
 
             {/* Login Button */}
-            <button
-              onClick={onLoginClick}
-              className="px-7 text-sm bg-green-400 rounded-full text-white py-2 
-      transition hover:bg-green-500 cursor-pointer"
-            >
-              Login
-            </button>
+            {user ? (
+              <div className="relative">
+                <button className="flex">
+                  {user?.avatar ? (
+                    <img
+                      src={user?.avatar}
+                      alt="avatar"
+                      referrerPolicy="no-referrer"
+                      className="w-9 h-9 object-cover border-gray-300 rounded-full"
+                    />
+                  ) : (
+                    <UserRound className="w-9 h-9 object-cover rounded-full" />
+                  )}
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={onLoginClick}
+                className="px-7 py-2 text-sm bg-indigo-500 hover:bg-indigo-600  transition rounded-full text-white "
+              >
+                Login
+              </button>
+            )}
           </div>
         </div>
       </div>

@@ -27,7 +27,7 @@ const userSchema= mongoose.Schema({
         type:Boolean,
         default:false
     },
-    avatat:String
+    avatar:String
 });
 
 const User= mongoose.model("user", userSchema);

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 
 import Header from "../Home/Header";
@@ -14,6 +15,9 @@ const Layout = () => {
   const [authModal, setAuthModal] = useState(null);
   const [otpEmail, setOtpEmail] = useState("");
   const [otp, setOtp] = useState(["", "", "", ""]);
+
+  const auth= useSelector((state)=>state.auth);
+  console.log(auth,'auth');
 
   const [otpPurpose, setOtpPurpose] = useState(null);
 

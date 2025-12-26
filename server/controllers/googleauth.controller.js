@@ -1,6 +1,6 @@
 import { OAuth2Client } from "google-auth-library";
 import User from "../models/user/user.model.js";
-
+import jwt from "jsonwebtoken";
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 export const googleLogin = async (req, res) => {
@@ -47,9 +47,17 @@ export const googleLogin = async (req, res) => {
         isVerified: true,
       });
     }
+    user = await User.findOne({ email }).select("-password");
+    const jwtToken= jwt.sign({
+      userId:user._id,
+    },
+    process.env.JWT_SECRET,
+    {expiresIn:"7d"},
+  )
     res.json({
       message: "Google login successful",
       user,
+      token: jwtToken,
     });
   } catch (error) {
     console.log("Googel login error:", error.message)

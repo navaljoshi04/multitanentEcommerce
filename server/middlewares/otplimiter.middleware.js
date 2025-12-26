@@ -13,7 +13,7 @@ export const otpSendLimiter= rateLimit({
 
 export const otpVerifyLimiter= rateLimit({
     windowMs:10 * 60 * 1000,
-    max:5,
+    max:8,
     standardHeaders:true,
     legacyHeaders:false,
     message:{

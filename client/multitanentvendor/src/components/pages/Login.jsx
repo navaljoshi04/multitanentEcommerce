@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { X, Play , CircleDashed} from "lucide-react";
+import { X, Play, CircleDashed } from "lucide-react";
 import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-
+import { useDispatch } from "react-redux";
+import { loginsuccess } from "../../store/authslices";
 const Login = ({ onClose, onSignup, onOTPSent }) => {
+  const dispatch = useDispatch();
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
       const response = await axios.post(
@@ -12,9 +14,14 @@ const Login = ({ onClose, onSignup, onOTPSent }) => {
         { token: credentialResponse.credential }
       );
       console.log("data is ", response.data);
-      if (response.data.user) {
-        localStorage.setItem("user", JSON.stringify(response.data.user));
-      }
+      dispatch(
+        loginsuccess({
+          user: response.data.user,
+          token: response.data.token,
+        })
+      );
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+      localStorage.setItem("token", response.data.token);
       onClose();
     } catch (error) {
       console.error("Google login failed", error);
@@ -43,7 +50,7 @@ const Login = ({ onClose, onSignup, onOTPSent }) => {
         `${
           import.meta.env.VITE_API_URL || "http://localhost:3000"
         }/api/users/login`,
-        {email}
+        { email }
       );
       console.log(response.data.message);
       if (response.data.message) {
@@ -126,7 +133,7 @@ const Login = ({ onClose, onSignup, onOTPSent }) => {
                 className="text-sm w-full outline-none focus:outline-none"
               />
             </div>
-              {error && (
+            {error && (
               <div className="mt-2 text-red-600 text-xs text-center">
                 {error}
               </div>
@@ -137,8 +144,7 @@ const Login = ({ onClose, onSignup, onOTPSent }) => {
                 onClick={handleLogin}
                 className="flex gap-2 text-white "
               >
-
-                 {loading ? (
+                {loading ? (
                   <>
                     <CircleDashed size={18} className="animate-spin" />
                     <span>Verify OTP...</span>
@@ -146,7 +152,7 @@ const Login = ({ onClose, onSignup, onOTPSent }) => {
                 ) : (
                   <>
                     <span>Continue</span>
-                    <Play size={12} className="mt-2 gap-1"/>
+                    <Play size={12} className="mt-2 gap-1" />
                   </>
                 )}
               </button>
