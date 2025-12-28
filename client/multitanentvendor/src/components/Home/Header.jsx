@@ -6,9 +6,7 @@ import UserMenu from "./UserMenu";
 
 const Header = ({ onLoginClick }) => {
   const user = useSelector((state) => state.auth.user);
-  console.log(user, "user");
-  console.log(user.avatar, "avatar");
-  const [showMenu, setShowMenu]=useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   return (
     <div>
       <div className="border-b border-gray-300">
@@ -19,7 +17,10 @@ const Header = ({ onLoginClick }) => {
           </h2>
           {user ? (
             <div className="relative">
-              <button onClick={()=>setShowMenu((prev)=>!prev)} className="hover:ring-2 hover:ring-green-200 transition">
+              <button
+                onClick={() => setShowMenu((prev) => !prev)}
+                className="hover:ring-2 hover:ring-green-200 transition"
+              >
                 {user?.avatar ? (
                   <img
                     src={user?.avatar}
@@ -28,7 +29,9 @@ const Header = ({ onLoginClick }) => {
                     className="w-9 h-9 object-cover border-gray-300 rounded-full"
                   />
                 ) : (
-                  <UserRound className="w-9 h-9 object-cover rounded-full" />
+                  <div className="w-9 h-9 flex items-center justify-center rounded-full bg-blue-100 border border-blue-200 hover:bg-gray-200 transition">
+                    <UserRound className="w-5 h-5 text-red-400" />
+                  </div>
                 )}
               </button>
               {showMenu && <UserMenu user={user} />}
@@ -83,7 +86,9 @@ const Header = ({ onLoginClick }) => {
                       className="w-9 h-9 object-cover border-gray-300 rounded-full"
                     />
                   ) : (
-                    <UserRound className="w-9 h-9 object-cover rounded-full" />
+                    <div className="w-9 h-9 flex items-center justify-center rounded-full bg-blue-100 border border-blue-200 hover:bg-gray-200 transition">
+                      <UserRound className="w-5 h-5 text-red-400" />
+                    </div>
                   )}
                 </button>
               </div>
@@ -158,7 +163,9 @@ const Header = ({ onLoginClick }) => {
                       className="w-9 h-9 object-cover border-gray-300 rounded-full"
                     />
                   ) : (
-                    <UserRound className="w-9 h-9 object-cover rounded-full" />
+                    <div className="w-9 h-9 flex items-center justify-center rounded-full bg-blue-100 border border-blue-200 hover:bg-gray-200 transition">
+                      <UserRound className="w-5 h-5 text-red-400" />
+                    </div>
                   )}
                 </button>
               </div>
