@@ -6,6 +6,7 @@ import UserMenu from "./UserMenu";
 
 const Header = ({ onLoginClick }) => {
   const user = useSelector((state) => state.auth.user);
+  console.log("user", user);
   const [showMenu, setShowMenu] = useState(false);
   return (
     <div>
