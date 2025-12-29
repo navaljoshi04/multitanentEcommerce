@@ -12,6 +12,7 @@ const cartSlice= createSlice({
     reducers:{
         addToCart:(state, action)=>{
             const item= action.payload;
+            console.log("item aaya", item);
             const existingItem= state.items.find((i)=>i.id==item.id);
             if(existingItem){
                 existingItem.qty += item.qty;
@@ -27,12 +28,24 @@ const cartSlice= createSlice({
             const item=state.items.find((i)=>i.id == id);
             if(item) item.qty= qty;
         },
+        incrementQty:(state,action)=>{
+            const {id}= action.payload;
+            const item= state.items.find((i)=>i.id == id);
+            if(item) item.qty +=1; 
+        },
+        decrementQty:(state,action)=>{
+            const {id}= action.payload;
+            const item= state.items.find((i)=>i.id == id);
+            if(item && item.qty>1) {
+                item.qty-=1;
+            }
+        },
         clearQty:(state)=>{
             state.items=[];
         }
     }
 });
 
-export const {addToCart, updateQty,removeFromCart, clearQty}=cartSlice.actions;
+export const {addToCart, updateQty,incrementQty, decrementQty,removeFromCart, clearQty}=cartSlice.actions;
 
 export default cartSlice.reducer;

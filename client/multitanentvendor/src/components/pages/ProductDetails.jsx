@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { BadgeIndianRupee, Globe, CreditCard, User } from "lucide-react";
 import { products } from "../data/products";
+import {useDispatch} from "react-redux"
+import { addToCart } from "../../store/cartslices";
 const Stars = ({ rating }) => {
   const filled = Array(rating).fill("★");
   const empty = Array(5 - rating).fill("☆");
@@ -12,12 +14,27 @@ const Stars = ({ rating }) => {
     </div>
   );
 };
+
 const ProductDetails = () => {
+  const dispatch=useDispatch();
   const { id } = useParams();
+  const navigate=useNavigate();
   const product = products.find((product) => product.id == id);
   const [toggleCart, setToggleCart] = useState(false);
   const [qty, setQty] = useState(1);
   console.log("qty", qty);
+    const handleAddToCart=()=>{
+    dispatch(
+      addToCart({
+        id:product.id,
+        name:product.name,
+        price:product.price,
+        image:product.image,
+        qty:qty
+      })
+    );
+    setToggleCart(true);
+  }
   return (
     <>
       <div>
@@ -73,14 +90,14 @@ const ProductDetails = () => {
                     +
                   </button>
                 </div>
-                <button className="bg-black text-white px-4 py-4 rounded-md text-sm mb-1 ">
+                <button onClick={()=>navigate('/cart')}  className="bg-black text-white px-4 py-4 rounded-md text-sm mb-1 ">
                   View Cart
                 </button>
               </div>
             </div>
           ) : (
             <button
-              onClick={() => setToggleCart(true)}
+              onClick={handleAddToCart}
               className="bg-black text-white px-2 py-4 w-42 rounded-md m-4 text-sm "
             >
               Add to Cart
@@ -169,14 +186,14 @@ const ProductDetails = () => {
                     +
                   </button>
                 </div>
-                <button className="bg-black text-white px-4 py-4 rounded-md text-sm mb-1 w-32">
+                <button onClick={()=>navigate('/cart')} className="bg-black text-white px-4 py-4 rounded-md text-sm mb-1 w-32">
                   View Cart
                 </button>
               </div>
             </div>
           ) : (
             <button
-              onClick={() => setToggleCart(true)}
+              onClick={handleAddToCart}
               className="bg-black text-white px-2 py-4 w-42 rounded-md m-4 text-sm "
             >
               Add to Cart
@@ -273,14 +290,14 @@ const ProductDetails = () => {
                         +
                       </button>
                     </div>
-                    <button className="bg-black text-white px-4 py-4 rounded-md text-sm mb-1 w-32">
+                    <button onClick={()=>navigate('/cart')} className="bg-black text-white px-4 py-4 rounded-md text-sm mb-1 w-32">
                       View Cart
                     </button>
                   </div>
                 </div>
               ) : (
                 <button
-                  onClick={() => setToggleCart(true)}
+                  onClick={handleAddToCart}
                   className="bg-black text-white px-2 py-4 w-42 mt-6 rounded-md m-4 text-sm "
                 >
                   Add to Cart

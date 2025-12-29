@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import React from 'react'
 import {products} from "../data/products"
 
+
 const Stars=({rating}) =>{
     const filled= Array(rating).fill("★");
     const empty = Array(5 - rating).fill("☆");
