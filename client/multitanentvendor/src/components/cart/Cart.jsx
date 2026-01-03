@@ -1,4 +1,4 @@
-import { ArrowRight, Plus } from "lucide-react";
+import { ArrowRight, Plus, X } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { decrementQty, incrementQty } from "../../store/cartslices";
 import { useState } from "react";
@@ -7,6 +7,25 @@ const Cart = () => {
   const cart = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
   const [paymentType, setPaymentType] = useState("stripe");
+  const [addressDetails, setAddressDetails]=useState({
+    fullname:"",
+    email:"",
+    street:"",
+    city:"",
+    state:"",
+    zip:"",
+    country:"",
+    phone:""
+  });
+
+  const handlechange=(e)=>{
+    const {name, value}=e.target;
+    setAddressDetails((prev)=>({
+      ...prev,
+      [name]:value
+    }));
+  }
+  
   const subtotal = cart.reduce((total, item) => {
     return total + item.price * item.qty;
   }, 0);
@@ -135,10 +154,105 @@ const Cart = () => {
                 />
                 {isAddressOpen && (
                   <div className="z-50 inset-0 flex items-center justify-center fixed">
-                    <div
-                      className="absolute inset-0 bg-white/40 backdrop-blur-sm"
-                      onClick={() => setIsAddressOpen(false)}
-                    />
+                    <div className="absolute inset-0 bg-white/40 backdrop-blur-sm ">
+                      <button onClick={() => setIsAddressOpen(false)}>
+                        <X
+                          size={40}
+                          className="absolute top-4 right-4 bg-red-50 rounded-full p-2"
+                        />
+                      </button>
+                
+                      <div className="bg-white relative w-[380px] max-w-full mt-14 rounded-2xl ml-4 p-6 shadow-lg">
+              
+                        <h2 className="text-xl font-semibold text-gray-800 text-center mb-4">
+                          Add New Address
+                        </h2>
+
+        
+                        <div className="flex flex-col gap-4">
+                          <input
+                            type="text"
+                            name="fullname"
+                            value={addressDetails.fullname}
+                            onChange={handlechange}
+                            placeholder="Enter Your name"
+                            className="input px-4 py-2 border border-gray-400 rounded"
+                          />
+
+                          <input
+                            type="email"
+                            name="email"
+                            value={addressDetails.email}
+                             onChange={handlechange}
+                            placeholder="Email Address"
+                            className="input px-4 py-2 border border-gray-400 rounded"
+                          />
+
+                          <input
+                            type="text"
+                            name="street"
+                            value={addressDetails.street}
+                             onChange={handlechange}
+                            placeholder="Street Address"
+                            className="input px-4 py-2 border border-gray-400 rounded"
+                          />
+
+                
+                          <div className="grid grid-cols-2 gap-3">
+                            <input
+                              type="text"
+                              name="city"
+                              value={addressDetails.city}
+                               onChange={handlechange}
+                              placeholder="City"
+                              className="input px-4 py-2 border border-gray-400 rounded"
+                            />
+                            <input
+                              type="text"
+                              name="state"
+                              value={addressDetails.state}
+                               onChange={handlechange}
+                              placeholder="State"
+                              className="input px-4 py-2 border border-gray-400 rounded"
+                            />
+                          </div>
+
+                   
+                          <div className="grid grid-cols-2 gap-3 ">
+                            <input
+                              type="number"
+                              name="zip"
+                              value={addressDetails.zip}
+                               onChange={handlechange}
+                              placeholder="Zip Code"
+                              className="input px-4 py-2 border border-gray-400 rounded"
+                            />
+                            <input
+                              type="text"
+                              name="country"
+                              value={addressDetails.country}
+                               onChange={handlechange}
+                              placeholder="Country"
+                              className="input px-4 py-2 border border-gray-400 rounded"
+                            />
+                          </div>
+
+                          <input
+                            type="number"
+                            name="phone"
+                            value={addressDetails.phone}
+                             onChange={handlechange}
+                            placeholder="Phone Number"
+                            className="input px-4 py-2 border border-gray-400 rounded"
+                          />
+
+                 
+                          <button className="mt-2 bg-slate-800 hover:bg-slate-900 text-white font-light py-3 rounded-xl transition">
+                            SAVE ADDRESS
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
